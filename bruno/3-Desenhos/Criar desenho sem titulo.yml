@@ -1,11 +1,11 @@
 info:
-  name: Criar mensagem sem texto
+  name: Criar desenho sem titulo
   type: http
   seq: 4
 
 http:
   method: POST
-  url: "{{baseUrl}}/mensagens"
+  url: "{{baseUrl}}/desenhos"
   body:
     type: json
     data: "{}"
@@ -25,8 +25,8 @@ runtime:
           expect(res.getBody()).to.have.property('erro');
         });
 
-        test("deve indicar que texto é obrigatório", function() {
-          expect(res.getBody().erro).to.equal('O campo texto é obrigatório');
+        test("deve indicar que titulo é obrigatório", function() {
+          expect(res.getBody().erro).to.equal('O campo titulo é obrigatório');
         });
 
 settings:

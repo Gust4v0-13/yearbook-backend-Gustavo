@@ -1,16 +1,16 @@
 info:
-  name: Criar mensagem
+  name: Criar desenho
   type: http
   seq: 2
 
 http:
   method: POST
-  url: "{{baseUrl}}/mensagens"
+  url: "{{baseUrl}}/desenhos"
   body:
     type: json
     data: |-
       {
-        "texto": "O cachorro está indo embora"
+        "titulo": "Estudo de retrato em carvão"
       }
   auth:
     type: bearer
@@ -19,11 +19,11 @@ http:
 runtime:
   scripts:
     - type: before-request
-      code: bru.deleteVar("mensagemCriadaId");
+      code: bru.deleteVar("desenhoCriadoId");
     - type: after-response
       code: |-
         if (res.getStatus() === 201 && res.getBody().id) {
-          bru.setVar("mensagemCriadaId", res.getBody().id);
+          bru.setVar("desenhoCriadoId", res.getBody().id);
         }
     - type: tests
       code: |-
@@ -31,8 +31,8 @@ runtime:
           expect(res.getStatus()).to.equal(201);
         });
 
-        test("deve conter o texto enviado", function() {
-          expect(res.getBody().texto).to.equal('O cachorro está indo embora');
+        test("deve conter o titulo enviado", function() {
+          expect(res.getBody().titulo).to.equal('Estudo de retrato em carvão');
         });
 
         test("deve retornar id gerado", function() {

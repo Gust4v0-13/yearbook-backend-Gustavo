@@ -1,11 +1,11 @@
 info:
-  name: DELETE aluno com token (ADMIN)
+  name: DELETE artista com token (ADMIN)
   type: http
   seq: 7
 
 http:
   method: DELETE
-  url: "{{baseUrl}}/alunos/{{alunoCriadoId}}"
+  url: "{{baseUrl}}/artistas/{{artistaCriadoId}}"
   auth:
     type: bearer
     token: "{{tokenAdmin}}"

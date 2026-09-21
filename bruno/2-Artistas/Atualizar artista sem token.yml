@@ -1,17 +1,17 @@
 info:
-  name: Atualizar aluno sem token
+  name: Atualizar artista sem token
   type: http
   seq: 5
 
 http:
   method: PUT
-  url: "{{baseUrl}}/alunos/1"
+  url: "{{baseUrl}}/artistas/1"
   body:
     type: json
     data: |-
       {
         "cidade": "Montes Claros",
-        "frase": "Frase atualizada"
+        "bio": "Bio atualizada"
       }
 
 runtime:

@@ -1,12 +1,22 @@
-# Yearbook Backend
+# Galeria de Desenhos — Backend
 
-Back-end da aplicação **Yearbook Digital**, desenvolvido para registrar perfis dos alunos e mensagens da turma. Este repositório contém somente a API; o front-end pode consumi-la por HTTP.
+Back-end da aplicação **Galeria de Desenhos**, adaptado a partir da API de referência do professor (Yearbook Digital), desenvolvido para registrar perfis de artistas e os desenhos que eles publicam. Este repositório contém somente a API; o front-end pode consumi-la por HTTP.
+
+## Mapeamento do domínio
+
+Esta API é uma adaptação da API de referência (Aluno/Mensagem) para o tema de uma galeria de desenhos, mantendo a mesma arquitetura (usuário com senha em hash, `role`, relacionamento 1:N com chave estrangeira).
+
+| Original | Adaptado |
+| --- | --- |
+| `Aluno` (com `senhaHash`, `role`) | `Artista` |
+| `Mensagem` (pertence a um aluno) | `Desenho` (pertence a um artista) |
+| rotas `/alunos`, `/mensagens` | `/artistas`, `/desenhos` |
 
 ## Stack
 
 - Node.js **18.18 ou superior** e npm;
 - Express 5;
-- Prisma 6 + PostgreSQL (Neon ou outra instância PostgreSQL);
+- Prisma 6 + PostgreSQL (Neon);
 - `bcryptjs`, `jsonwebtoken`, `dotenv` e `cors`;
 - Bruno para testes manuais/automatizados da API;
 - Vercel para execução serverless;
@@ -16,7 +26,7 @@ Back-end da aplicação **Yearbook Digital**, desenvolvido para registrar perfis
 
 ```text
 .
-├── controllers/          Regras de negócio de autenticação, alunos e mensagens
+├── controllers/          Regras de negócio de autenticação, artistas e desenhos
 ├── routes/               Rotas Express
 ├── middlewares/          Autenticação, autorização, logs e erros
 ├── utils/                Hash de senha e JWT
@@ -52,7 +62,7 @@ Instale:
 
 ```bash
 git clone <URL_DO_REPOSITORIO>
-cd 26webm-yearbook-backend
+cd api-galeria-gustavo
 npm install
 ```
 
@@ -86,9 +96,9 @@ node prisma/seed.js
 
 O seed é idempotente e pode ser executado mais de uma vez. Em um banco novo, ele cria:
 
-- aluno: `maria@email.com` / `senha123`;
+- artista: `clara@email.com` / `senha123`;
 - administrador: `admin@email.com` / `admin123`;
-- uma mensagem inicial da Maria.
+- dois desenhos iniciais da Clara.
 
 Essas credenciais são apenas para desenvolvimento. Troque-as ou remova os dados antes de qualquer uso público.
 
@@ -127,10 +137,10 @@ Resposta esperada, com um timestamp variável:
 2. Abra a pasta `bruno/` como coleção.
 3. Selecione o ambiente local, que aponta `baseUrl` para `http://localhost:3000`.
 4. Execute `Register` ou use os usuários criados pelo seed.
-5. Execute `Login` ou `Login Admin`. O script da requisição salva automaticamente o JWT na variável `token`.
-6. Execute as requisições de alunos e mensagens. As variáveis de IDs também são preenchidas pelos scripts da coleção quando aplicável.
+5. Execute `Login` ou `Login Admin`. O script da requisição salva automaticamente o JWT nas variáveis `tokenDono`/`tokenAdmin`.
+6. Execute as requisições de artistas e desenhos. As variáveis de IDs também são preenchidas pelos scripts da coleção quando aplicável.
 
-A coleção inclui casos de sucesso e de erro, como requisições sem token, aluno inexistente, mensagem sem texto e exclusão sem permissão.
+A coleção inclui casos de sucesso e de erro, como requisições sem token, artista inexistente, desenho sem título e exclusão sem permissão.
 
 ## Deploy na Vercel
 

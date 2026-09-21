@@ -1,17 +1,11 @@
 info:
-  name: Criar mensagem sem token
+  name: DELETE artista sem token
   type: http
-  seq: 3
+  seq: 6
 
 http:
-  method: POST
-  url: "{{baseUrl}}/mensagens"
-  body:
-    type: json
-    data: |-
-      {
-        "texto": "Mensagem sem token teste"
-      }
+  method: DELETE
+  url: "{{baseUrl}}/artistas/{{artistaCriadoId}}"
 
 runtime:
   scripts:

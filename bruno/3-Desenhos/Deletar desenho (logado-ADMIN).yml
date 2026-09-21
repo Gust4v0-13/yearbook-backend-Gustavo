@@ -1,11 +1,11 @@
 info:
-  name: Deletar mensagem (logado/ADMIN)
+  name: Deletar desenho (logado/ADMIN)
   type: http
   seq: 5
 
 http:
   method: DELETE
-  url: "{{baseUrl}}/mensagens/{{mensagemCriadaId}}"
+  url: "{{baseUrl}}/desenhos/{{desenhoCriadoId}}"
   auth:
     type: bearer
     token: "{{tokenAdmin}}"

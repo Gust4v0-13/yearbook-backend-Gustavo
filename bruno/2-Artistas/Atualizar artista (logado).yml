@@ -1,17 +1,17 @@
 info:
-  name: Atualizar aluno (logado)
+  name: Atualizar artista (logado)
   type: http
   seq: 4
 
 http:
   method: PUT
-  url: "{{baseUrl}}/alunos/{{alunoCriadoId}}"
+  url: "{{baseUrl}}/artistas/{{artistaCriadoId}}"
   body:
     type: json
     data: |-
       {
         "cidade": "Montes Claros",
-        "frase": "Frase atualizada"
+        "bio": "Bio atualizada"
       }
   auth:
     type: bearer
@@ -40,5 +40,5 @@ settings:
   maxRedirects: 5
 
 docs: |-
-  Requer token do DONO do perfil ({{alunoCriadoId}}).
-  Faça login com o aluno registrado (João) antes de rodar.
+  Requer token do DONO do perfil ({{artistaCriadoId}}).
+  Faça login com o artista registrado (Pedro) antes de rodar.

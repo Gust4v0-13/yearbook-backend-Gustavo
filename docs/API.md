@@ -1,6 +1,6 @@
-# API do Yearbook Digital
+# API da Galeria de Desenhos
 
-Contrato atual da API REST do Yearbook Digital.
+Contrato atual da API REST da Galeria de Desenhos.
 
 ## Acesso
 
@@ -24,42 +24,42 @@ Em produção, substitua a base URL pela URL gerada pelo deploy da Vercel.
 | --- | --- | --- | --- |
 | `GET` | `/` | Mensagem de boas-vindas | Não |
 | `GET` | `/status` | Health check | Não |
-| `POST` | `/auth/register` | Cria uma conta de aluno | Não |
+| `POST` | `/auth/register` | Cria uma conta de artista | Não |
 | `POST` | `/auth/login` | Autentica e retorna um JWT | Não |
-| `GET` | `/alunos` | Lista alunos sem `senhaHash` | Não |
-| `GET` | `/alunos/:id` | Busca um aluno por ID | Não |
-| `PUT` | `/alunos/:id` | Atualiza o próprio perfil | JWT do dono |
-| `DELETE` | `/alunos/:id` | Exclui um aluno | JWT de `ADMIN` |
-| `GET` | `/mensagens` | Lista mensagens com dados do autor | Não |
-| `POST` | `/mensagens` | Cria uma mensagem | JWT |
-| `DELETE` | `/mensagens/:id` | Exclui uma mensagem | JWT do dono ou `ADMIN` |
+| `GET` | `/artistas` | Lista artistas sem `senhaHash` | Não |
+| `GET` | `/artistas/:id` | Busca um artista por ID | Não |
+| `PUT` | `/artistas/:id` | Atualiza o próprio perfil | JWT do dono |
+| `DELETE` | `/artistas/:id` | Exclui um artista | JWT de `ADMIN` |
+| `GET` | `/desenhos` | Lista desenhos com dados do artista | Não |
+| `POST` | `/desenhos` | Cria um desenho | JWT |
+| `DELETE` | `/desenhos/:id` | Exclui um desenho | JWT do dono ou `ADMIN` |
 
-O cadastro de alunos é feito por `/auth/register`. A API não possui `POST /alunos`.
+O cadastro de artistas é feito por `/auth/register`. A API não possui `POST /artistas`.
 
 ## Autenticação
 
 ### Cadastro — `POST /auth/register`
 
-Cria um aluno com perfil `USER`. Os campos `nome`, `email` e `senha` são obrigatórios.
+Cria um artista com perfil `USER`. Os campos `nome`, `email` e `senha` são obrigatórios.
 
 #### Requisição
 
 ```json
 {
-  "nome": "João Teste",
-  "email": "joao@example.com",
-  "senha": "joao123",
+  "nome": "Pedro Teste",
+  "email": "pedro@example.com",
+  "senha": "pedro123",
   "cidade": "Salinas",
-  "frase": "Em testes",
-  "planosFuturos": "Aprender Node.js"
+  "bio": "Em testes",
+  "tecnica": "Aquarela"
 }
 ```
 
-Os campos `cidade`, `frase` e `planosFuturos` são opcionais.
+Os campos `cidade`, `bio` e `tecnica` são opcionais.
 
 #### Respostas
 
-- `201 Created`: aluno criado;
+- `201 Created`: artista criado;
 - `400 Bad Request`: um dos campos obrigatórios não foi enviado;
 - `409 Conflict`: o email já está cadastrado;
 - `500 Internal Server Error`: erro inesperado.
@@ -69,11 +69,11 @@ Exemplo de resposta `201`:
 ```json
 {
   "id": 3,
-  "nome": "João Teste",
-  "email": "joao@example.com",
+  "nome": "Pedro Teste",
+  "email": "pedro@example.com",
   "cidade": "Salinas",
-  "frase": "Em testes",
-  "planosFuturos": "Aprender Node.js",
+  "bio": "Em testes",
+  "tecnica": "Aquarela",
   "fotoUrl": null,
   "role": "USER",
   "criadoEm": "2026-08-19T12:00:00.000Z"
@@ -82,14 +82,14 @@ Exemplo de resposta `201`:
 
 ### Login — `POST /auth/login`
 
-Autentica um aluno e retorna um token JWT.
+Autentica um artista e retorna um token JWT.
 
 #### Requisição
 
 ```json
 {
-  "email": "joao@example.com",
-  "senha": "joao123"
+  "email": "pedro@example.com",
+  "senha": "pedro123"
 }
 ```
 
@@ -107,7 +107,7 @@ Exemplo de resposta `200`:
 }
 ```
 
-O token é assinado com `JWT_SECRET`, contém o `id` e a `role` do aluno e expira em 7 dias.
+O token é assinado com `JWT_SECRET`, contém o `id` e a `role` do artista e expira em 7 dias.
 
 ### Envio do token
 
@@ -141,7 +141,7 @@ Retorna `200 OK`:
 
 ```json
 {
-  "mensagem": "Yearbook API está no ar! 🎓"
+  "mensagem": "Galeria API está no ar! 🎨"
 }
 ```
 
@@ -156,56 +156,56 @@ Retorna `200 OK`:
 }
 ```
 
-## Alunos
+## Artistas
 
-### Listar alunos — `GET /alunos`
+### Listar artistas — `GET /artistas`
 
-Retorna `200 OK` com um array de alunos. O campo `senhaHash` nunca aparece.
+Retorna `200 OK` com um array de artistas. O campo `senhaHash` nunca aparece.
 
-### Buscar aluno — `GET /alunos/:id`
+### Buscar artista — `GET /artistas/:id`
 
-Retorna `200 OK` com o aluno solicitado ou `404 Not Found`:
+Retorna `200 OK` com o artista solicitado ou `404 Not Found`:
 
 ```json
 {
-  "erro": "Aluno não encontrado"
+  "erro": "Artista não encontrado"
 }
 ```
 
-### Atualizar perfil — `PUT /alunos/:id`
+### Atualizar perfil — `PUT /artistas/:id`
 
-Requer o token do próprio aluno. O `id` da URL precisa ser igual ao `id` presente no token.
+Requer o token do próprio artista. O `id` da URL precisa ser igual ao `id` presente no token.
 
 Exemplo de requisição:
 
 ```json
 {
   "cidade": "Montes Claros",
-  "frase": "Frase atualizada",
-  "planosFuturos": "Trabalhar com tecnologia",
+  "bio": "Bio atualizada",
+  "tecnica": "Nanquim",
   "fotoUrl": "https://exemplo.com/foto.jpg"
 }
 ```
 
-Campos de perfil disponíveis: `nome`, `email`, `cidade`, `frase`, `planosFuturos` e `fotoUrl`. Envie somente os campos que devem ser alterados. `senhaHash`, `role`, `id` e `criadoEm` não devem ser enviados pelo cliente.
+Campos de perfil disponíveis: `nome`, `email`, `cidade`, `bio`, `tecnica` e `fotoUrl`. Envie somente os campos que devem ser alterados. `senhaHash`, `role`, `id` e `criadoEm` não devem ser enviados pelo cliente.
 
 #### Respostas
 
-- `200 OK`: aluno atualizado, sem `senhaHash`;
+- `200 OK`: artista atualizado, sem `senhaHash`;
 - `401 Unauthorized`: token ausente, inválido ou expirado;
-- `403 Forbidden`: o token não pertence ao aluno da URL;
-- `404 Not Found`: aluno não encontrado.
+- `403 Forbidden`: o token não pertence ao artista da URL;
+- `404 Not Found`: artista não encontrado.
 
-### Excluir aluno — `DELETE /alunos/:id`
+### Excluir artista — `DELETE /artistas/:id`
 
-Requer token com `role: "ADMIN"`. A exclusão também remove as mensagens associadas ao aluno.
+Requer token com `role: "ADMIN"`. A exclusão também remove os desenhos associados ao artista.
 
 #### Respostas
 
-- `204 No Content`: aluno excluído;
+- `204 No Content`: artista excluído;
 - `401 Unauthorized`: token ausente, inválido ou expirado;
 - `403 Forbidden`: usuário não é administrador;
-- `404 Not Found`: aluno não encontrado.
+- `404 Not Found`: artista não encontrado.
 
 Resposta de acesso negado:
 
@@ -215,47 +215,47 @@ Resposta de acesso negado:
 }
 ```
 
-## Mensagens
+## Desenhos
 
-### Listar mensagens — `GET /mensagens`
+### Listar desenhos — `GET /desenhos`
 
-Retorna `200 OK` com as mensagens ordenadas da mais nova para a mais antiga. Cada mensagem inclui os dados públicos do autor:
+Retorna `200 OK` com os desenhos ordenados do mais novo para o mais antigo. Cada desenho inclui os dados públicos do artista:
 
 ```json
 [
   {
     "id": 1,
-    "texto": "Salve, turma!",
+    "titulo": "Autorretrato em nanquim",
     "imagemUrl": null,
-    "autorId": 1,
+    "artistaId": 1,
     "criadoEm": "2026-08-19T12:00:00.000Z",
-    "autor": {
-      "nome": "Maria Silva",
+    "artista": {
+      "nome": "Clara",
       "fotoUrl": null
     }
   }
 ]
 ```
 
-### Criar mensagem — `POST /mensagens`
+### Criar desenho — `POST /desenhos`
 
-Requer um JWT válido. O autor é definido automaticamente pelo usuário autenticado; não é necessário enviar `autorId`.
+Requer um JWT válido. O artista é definido automaticamente pelo usuário autenticado; não é necessário enviar `artistaId`.
 
 #### Requisição
 
 ```json
 {
-  "texto": "Mensagem da turma",
+  "titulo": "Estudo de retrato",
   "imagemUrl": "https://exemplo.com/imagem.jpg"
 }
 ```
 
-O campo `texto` é obrigatório e `imagemUrl` é opcional. Os campos de imagem são URLs; a API não realiza upload de arquivos.
+O campo `titulo` é obrigatório e `imagemUrl` é opcional. Os campos de imagem são URLs; a API não realiza upload de arquivos.
 
 #### Respostas
 
-- `201 Created`: mensagem criada;
-- `400 Bad Request`: o campo `texto` não foi enviado;
+- `201 Created`: desenho criado;
+- `400 Bad Request`: o campo `titulo` não foi enviado;
 - `401 Unauthorized`: token ausente, inválido ou expirado;
 - `500 Internal Server Error`: erro inesperado.
 
@@ -264,61 +264,61 @@ Exemplo de resposta `201`:
 ```json
 {
   "id": 2,
-  "texto": "Mensagem da turma",
+  "titulo": "Estudo de retrato",
   "imagemUrl": "https://exemplo.com/imagem.jpg",
-  "autorId": 1,
+  "artistaId": 1,
   "criadoEm": "2026-08-19T12:00:00.000Z"
 }
 ```
 
-### Excluir mensagem — `DELETE /mensagens/:id`
+### Excluir desenho — `DELETE /desenhos/:id`
 
-Requer token do autor da mensagem ou de um administrador.
+Requer token do artista dono do desenho ou de um administrador.
 
 #### Respostas
 
-- `204 No Content`: mensagem excluída;
+- `204 No Content`: desenho excluído;
 - `401 Unauthorized`: token ausente, inválido ou expirado;
-- `403 Forbidden`: usuário não é o autor nem administrador;
-- `404 Not Found`: mensagem não encontrada.
+- `403 Forbidden`: usuário não é o dono nem administrador;
+- `404 Not Found`: desenho não encontrado.
 
 Resposta quando não há permissão:
 
 ```json
 {
-  "erro": "Você não tem permissão para excluir esta mensagem"
+  "erro": "Você não tem permissão para excluir este desenho"
 }
 ```
 
 ## Modelos de dados
 
-### Aluno
+### Artista
 
 | Campo | Tipo | Obrigatório | Observação |
 | --- | --- | --- | --- |
 | `id` | `Int` | Sim | Gerado automaticamente. |
-| `nome` | `String` | Sim | Nome do aluno. |
+| `nome` | `String` | Sim | Nome do artista. |
 | `email` | `String` | Sim | Único no banco. |
 | `senhaHash` | `String` | Sim | Armazenado com bcrypt; nunca retornado pela API. |
-| `cidade` | `String` | Não | Cidade do aluno. |
-| `frase` | `String` | Não | Frase pessoal. |
-| `planosFuturos` | `String` | Não | Planos para o futuro. |
+| `cidade` | `String` | Não | Cidade do artista. |
+| `bio` | `String` | Não | Biografia curta. |
+| `tecnica` | `String` | Não | Técnica principal do artista. |
 | `fotoUrl` | `String` | Não | URL da foto; não há upload implementado. |
 | `role` | `Role` | Sim | `USER` por padrão ou `ADMIN`. |
 | `criadoEm` | `DateTime` | Sim | Preenchido automaticamente. |
 
-### Mensagem
+### Desenho
 
 | Campo | Tipo | Obrigatório | Observação |
 | --- | --- | --- | --- |
 | `id` | `Int` | Sim | Gerado automaticamente. |
-| `texto` | `String` | Sim | Conteúdo da mensagem. |
+| `titulo` | `String` | Sim | Título do desenho. |
 | `imagemUrl` | `String` | Não | URL opcional de uma imagem. |
-| `autorId` | `Int` | Sim | Chave estrangeira para `Aluno`. |
-| `autor` | `Object` | Em listagem | Contém `nome` e `fotoUrl` do autor. |
+| `artistaId` | `Int` | Sim | Chave estrangeira para `Artista`. |
+| `artista` | `Object` | Em listagem | Contém `nome` e `fotoUrl` do artista. |
 | `criadoEm` | `DateTime` | Sim | Preenchido automaticamente. |
 
-Datas são serializadas em formato ISO 8601 nas respostas JSON. A relação `Mensagem.autor` usa exclusão em cascata: ao excluir um aluno, suas mensagens também são removidas.
+Datas são serializadas em formato ISO 8601 nas respostas JSON. A relação `Desenho.artista` usa exclusão em cascata: ao excluir um artista, seus desenhos também são removidos.
 
 ## Erros e comportamento geral
 
@@ -350,7 +350,7 @@ Depois de executar `node prisma/seed.js`, o banco contém os seguintes usuários
 
 | Perfil | Email | Senha |
 | --- | --- | --- |
-| `USER` | `maria@email.com` | `senha123` |
+| `USER` | `clara@email.com` | `senha123` |
 | `ADMIN` | `admin@email.com` | `admin123` |
 
 Essas credenciais são exclusivas para desenvolvimento local e não devem ser usadas em produção.

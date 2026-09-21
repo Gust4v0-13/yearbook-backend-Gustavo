@@ -1,5 +1,5 @@
 info:
-  name: Login Maria
+  name: Login Clara
   type: http
   seq: 3
 
@@ -10,18 +10,18 @@ http:
     type: json
     data: |-
       {
-        "email": "maria@email.com",
+        "email": "clara@email.com",
         "senha": "senha123"
       }
 
 runtime:
   scripts:
     - type: before-request
-      code: bru.deleteVar("tokenMaria");
+      code: bru.deleteVar("tokenClara");
     - type: after-response
       code: |-
         if (res.getBody().token) {
-          bru.setVar("tokenMaria", res.getBody().token);
+          bru.setVar("tokenClara", res.getBody().token);
         }
     - type: tests
       code: |-

@@ -1,11 +1,11 @@
 info:
-  name: Deletar mensagem inexistente
+  name: Deletar desenho inexistente
   type: http
   seq: 6
 
 http:
   method: DELETE
-  url: "{{baseUrl}}/mensagens/999999"
+  url: "{{baseUrl}}/desenhos/999999"
   auth:
     type: bearer
     token: "{{tokenAdmin}}"
@@ -23,7 +23,7 @@ runtime:
         });
 
         test("deve retornar a mensagem de erro correta", function() {
-          expect(res.getBody().erro).to.equal('Mensagem não encontrada');
+          expect(res.getBody().erro).to.equal('Desenho não encontrado');
         });
 
 settings:

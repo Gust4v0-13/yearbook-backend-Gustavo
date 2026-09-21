@@ -10,25 +10,25 @@ http:
     type: json
     data: |-
       {
-        "nome": "João Teste",
-        "email": "{{emailAlunoCriado}}",
-        "senha": "joao123",
+        "nome": "Pedro Teste",
+        "email": "{{emailArtistaCriado}}",
+        "senha": "pedro123",
         "cidade": "Salinas",
-        "frase": "Em testes",
-        "planosFuturos": "Aprender Node.js"
+        "bio": "Em testes",
+        "tecnica": "Aquarela"
       }
 
 runtime:
   scripts:
     - type: before-request
       code: |-
-        bru.deleteVar("alunoCriadoId");
+        bru.deleteVar("artistaCriadoId");
         bru.deleteVar("tokenDono");
-        bru.setVar("emailAlunoCriado", `joao.teste.${Date.now()}@email.com`);
+        bru.setVar("emailArtistaCriado", `pedro.teste.${Date.now()}@email.com`);
     - type: after-response
       code: |-
         if (res.getBody().id) {
-          bru.setVar("alunoCriadoId", res.getBody().id);
+          bru.setVar("artistaCriadoId", res.getBody().id);
         }
     - type: tests
       code: |-

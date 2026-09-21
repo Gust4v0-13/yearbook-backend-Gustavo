@@ -1,0 +1,36 @@
+info:
+  name: Listar desenhos
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{baseUrl}}/desenhos"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("deve retornar status 200", function() {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("deve retornar um array", function() {
+          expect(res.getBody()).to.be.an('array');
+        });
+
+        test("cada desenho deve ter campo artista com nome e fotoUrl", function() {
+          const desenhos = res.getBody();
+          desenhos.forEach(des => {
+            expect(des).to.have.property('artista');
+            expect(des.artista).to.have.property('nome');
+            expect(des.artista).to.have.property('fotoUrl');
+            expect(des.artista).to.not.have.property('senhaHash');
+          });
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
