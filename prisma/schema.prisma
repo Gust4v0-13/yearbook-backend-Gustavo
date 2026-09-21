@@ -3,39 +3,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Generator — gera o Prisma Client em JavaScript
 generator client {
   provider = "prisma-client-js"
 }
 
-// Enum — valores fixos para o campo role
 enum Role {
   USER
   ADMIN
 }
 
-// Model Mensagem — representa a tabela "Mensagem" no banco
-// (🎯 Desafio do aluno — solução completa)
-model Mensagem {
+// Model Desenho — representa a tabela "Desenho" no banco
+model Desenho {
   id        Int      @id @default(autoincrement())
-  texto     String
+  titulo    String
   imagemUrl String?
-  autorId   Int
-  autor     Aluno    @relation(fields: [autorId], references: [id], onDelete: Cascade)
+  artistaId Int
+  artista   Artista  @relation(fields: [artistaId], references: [id], onDelete: Cascade)
   criadoEm  DateTime @default(now())
 }
-  
-// Model Aluno — representa a tabela "Aluno" no banco
-model Aluno {
+
+// Model Artista — representa a tabela "Artista" no banco
+model Artista {
   id            Int        @id @default(autoincrement())
   nome          String
   email         String     @unique
   senhaHash     String
   cidade        String?
-  frase         String?
-  planosFuturos String?
+  bio           String?
+  tecnica       String?
   fotoUrl       String?
   role          Role       @default(USER)
   criadoEm      DateTime   @default(now())
-  mensagens     Mensagem[]
+  desenhos      Desenho[]
 }
